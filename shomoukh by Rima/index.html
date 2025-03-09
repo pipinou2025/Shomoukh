@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شموخ - متجر للفساتين</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- إضافة عناصر الفقاعات المتحركة -->
+    <div class="floating-bubbles">
+        <!-- سيتم إنشاء الفقاعات ديناميكيًا عبر JavaScript -->
+    </div>
+    
+    <header>
+        <div class="header-spacer"></div>
+        <div class="logo-container">
+            <div class="bubble1"></div>
+            <div class="bubble2"></div>
+            <div class="bubble3"></div>
+
+            <img src="./logo.png" alt="شموخ" class="logo">
+            <h2 class="store-name">
+                <span class="arabic-ink">شموخ</span>
+            </h2>
+            <h1 class="slogan arabic-fancy">تألقي بأجمل التصاميم</h1>
+        </div>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart" id="cartIcon"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="products-container" id="productsContainer">
+            <!-- Products will be loaded dynamically -->
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-media">
+            <h3>تواصل معنا</h3>
+            <div class="social-icons">
+                <a href="#" class="social-link phone"><i class="fas fa-phone"></i> <span id="phoneNumber">0123456789</span></a>
+                <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#" class="social-link facebook"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="social-link tiktok"><i class="fab fa-tiktok"></i> TikTok</a>
+            </div>
+        </div>
+        <p class="copyright">جميع الحقوق محفوظة &copy; 2023 شموخ</p>
+        <!-- زر مخفي للوصول إلى لوحة التحكم -->
+        <div class="admin-access">
+            <button id="adminAccessBtn" class="admin-button">.</button>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>سلة المشتريات</h2>
+                <span class="close" id="closeCartModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="loading-container" id="cartLoading" style="display: none; text-align: center; padding: 20px;">
+                    <div class="loading">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <p>جاري تحميل المنتجات...</p>
+                </div>
+                
+                <div id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                <div class="cart-summary">
+                    <p>المجموع الكلي: <span id="cartTotal">0</span> دج</p>
+                </div>
+                <button id="checkoutBtn" class="btn checkout-btn">متابعة الشراء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-arrow-right back-btn" id="backToCartBtn"></i>
+                <h2>معلومات التوصيل</h2>
+                <span class="close" id="closeCheckoutModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="firstName">الاسم</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">اللقب</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف</label>
+                        <input type="tel" id="phone" maxlength="10" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wilaya">الولاية</label>
+                        <select id="wilaya" required>
+                            <option value="">اختر الولاية</option>
+                            <!-- Wilayas will be added dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>طريقة التوصيل</label>
+                        <div class="delivery-options">
+                            <div class="delivery-option">
+                                <input type="radio" id="homeDelivery" name="deliveryType" value="home" checked>
+                                <label for="homeDelivery">توصيل إلى باب المنزل</label>
+                            </div>
+                            <div class="delivery-option">
+                                <input type="radio" id="municipalityDelivery" name="deliveryType" value="municipality">
+                                <label for="municipalityDelivery">توصيل إلى البلدية</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="municipalityGroup" style="display: none;">
+                        <label for="municipality">البلدية</label>
+                        <input type="text" id="municipality">
+                    </div>
+                    <div class="order-summary">
+                        <h3>ملخص الطلب</h3>
+                        <p>سعر المنتجات: <span id="productsTotalCheckout">0</span> دج</p>
+                        <p>سعر التوصيل: <span id="deliveryFee">0</span> دج</p>
+                        <p class="total">المجموع الكلي: <span id="orderTotal">0</span> دج</p>
+                    </div>
+                    <button type="submit" class="btn confirm-btn">تأكيد الطلب</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-body confirmation">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>تمت تأكيد عملية الشراء بنجاح</h2>
+                <p>سنتواصل معك قريباً لتأكيد الطلب</p>
+                <button id="continueShopping" class="btn">مواصلة التصفح</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تسجيل الدخول للإدارة</h2>
+                <span class="close" id="closeLoginBtn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="adminUsername">اسم المستخدم</label>
+                        <input type="text" id="adminUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">كلمة المرور</label>
+                        <input type="password" id="adminPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">تسجيل الدخول</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Hidden by default) -->
+    <div id="adminPanel" class="admin-panel">
+        <h2>لوحة التحكم</h2>
+        <div class="admin-sections">
+            <div class="admin-section">
+                <h3>إدارة المنتجات</h3>
+                <div id="productsList" class="products-list">
+                    <!-- Products will be listed here -->
+                </div>
+                <button id="addProductBtn" class="btn add-btn">إضافة منتج جديد</button>
+            </div>
+            <div class="admin-section">
+                <h3>إعدادات التوصيل</h3>
+                <div class="form-group">
+                    <label for="homeDeliveryPrice">سعر التوصيل إلى المنزل (دج)</label>
+                    <input type="number" id="homeDeliveryPrice" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="municipalityDeliveryPrice">سعر التوصيل إلى البلدية (دج)</label>
+                    <input type="number" id="municipalityDeliveryPrice" min="0">
+                </div>
+                <button id="saveDeliverySettings" class="btn save-btn">حفظ الإعدادات</button>
+            </div>
+            <div class="admin-section">
+                <h3>معلومات التواصل</h3>
+                <div class="form-group">
+                    <label for="adminPhone">رقم الهاتف</label>
+                    <input type="tel" id="adminPhone" maxlength="10">
+                </div>
+                <div class="form-group">
+                    <label for="adminInstagram">رابط Instagram</label>
+                    <input type="text" id="adminInstagram">
+                </div>
+                <div class="form-group">
+                    <label for="adminFacebook">رابط Facebook</label>
+                    <input type="text" id="adminFacebook">
+                </div>
+                <div class="form-group">
+                    <label for="adminTiktok">رابط TikTok</label>
+                    <input type="text" id="adminTiktok">
+                </div>
+                <button id="saveContactInfo" class="btn save-btn">حفظ المعلومات</button>
+            </div>
+            <div class="admin-section">
+                <h3>سجل الطلبات</h3>
+                <div id="ordersList" class="orders-list">
+                    <!-- Orders will be listed here -->
+                </div>
+            </div>
+        </div>
+        <button id="logoutBtn" class="btn logout-btn">تسجيل الخروج</button>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="productModalTitle">إضافة منتج جديد</h2>
+                <span class="close" id="closeProductModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-group">
+                        <label for="productName">اسم المنتج</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">السعر (دج)</label>
+                        <input type="number" id="productPrice" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">صورة المنتج</label>
+                        <input type="file" id="productImage" accept="image/*" required>
+                        <div class="image-preview" id="imagePreview"></div>
+                    </div>
+                    <button type="submit" class="btn save-btn">حفظ المنتج</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./app.js"></script>
+    
+    <!-- إضافة سكريبت لإنشاء الفقاعات المتحركة -->
+    <script>
+        // إنشاء الفقاعات المتحركة
+        document.addEventListener('DOMContentLoaded', function() {
+            const bubblesContainer = document.querySelector('.floating-bubbles');
+            const bubbleCount = 15; // عدد الفقاعات
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                createBubble(bubblesContainer);
+            }
+            
+            // إنشاء فقاعة جديدة كل 3 ثوان
+            setInterval(() => {
+                if (document.querySelectorAll('.bubble').length < 25) { // الحد الأقصى للفقاعات
+                    createBubble(bubblesContainer);
+                }
+            }, 3000);
+        });
+        
+        function createBubble(container) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            // تعيين خصائص عشوائية للفقاعة
+            const size = Math.random() * 50 + 20; // حجم عشوائي بين 20 و 70
+            const left = Math.random() * 100; // موقع عشوائي
+            const duration = Math.random() * 20 + 10; // مدة عشوائية بين 10 و 30 ثانية
+            const delay = Math.random() * 5; // تأخير عشوائي حتى 5 ثوان
+            const opacity = Math.random() * 0.3 + 0.1; // شفافية عشوائية بين 0.1 و 0.4
+            const rotation = Math.random() * 360; // دوران عشوائي
+            
+            // تعيين خصائص CSS
+            bubble.style.setProperty('--duration', `${duration}s`);
+            bubble.style.setProperty('--opacity', opacity);
+            bubble.style.setProperty('--rotation', `${rotation}deg`);
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${left}%`;
+            bubble.style.bottom = '-100px';
+            bubble.style.animationDelay = `${delay}s`;
+            
+            // إضافة الفقاعة للحاوية
+            container.appendChild(bubble);
+            
+            // حذف الفقاعة بعد انتهاء الرسوم المتحركة
+            setTimeout(() => {
+                bubble.remove();
+            }, (duration + delay) * 1000);
+        }
+    </script>
+</body>
+</html> 

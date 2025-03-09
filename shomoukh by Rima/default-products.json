@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1001,
+    "name": "فستان سهرة أنيق",
+    "price": 4500,
+    "image": "https://i.pinimg.com/564x/f9/4c/cf/f94ccf1b5ff2ef4ae3c71e99f6c21acd.jpg"
+  },
+  {
+    "id": 1002,
+    "name": "فستان زفاف فخم",
+    "price": 12000,
+    "image": "https://i.pinimg.com/564x/e9/f0/2a/e9f02a2ee88ee87c4c2eb5c08c3886e3.jpg"
+  },
+  {
+    "id": 1003,
+    "name": "فستان حفلة مميز",
+    "price": 6500,
+    "image": "https://i.pinimg.com/564x/72/8a/b0/728ab0b8b7bb81c7e68cf1446e9a82e2.jpg"
+  }
+] 
